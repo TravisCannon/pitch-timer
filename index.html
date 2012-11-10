@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<title>Pitch Timer</title>
+	
+	<!-- Meta -->
+    <meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pitch Timer">
+	<meta name="author" content="Travis Cannon">
+	
+    <!-- CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/timer.css" rel="stylesheet">
+	
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- Pitch Timer -->
+	<div class="container">
+	  <div id="timer" class="hero-unit">
+	    <div>
+	      <h1 class="timer-timeleft">
+	        1:00
+	      </h1>
+	    </div>
+	    <div>
+	      <br>
+	    </div>
+	    <div class="timer-progress progress progress-striped progress-success">
+	      <div class="timer-bar bar" style="width: 0%">
+	      </div>
+	    </div>
+	    <div>
+	      <br>
+	    </div>
+		<div class="timer-controls input-append pull-right">
+		  <input class="timer-time span2" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="checkUserInput()">
+		  <button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
+		  <button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
+		  <button class="timer-reset btn btn-inverse" type="button" onclick="resetTimer()" disabled>Reset</button>
+		</div>
+	  </div>
+	</div>
+	
+    <!-- JavaScript -->
+    <script src="js/jquery-1.8.2.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/timer.js"></script>
+	<script>checkUserInput();</script>
+</body>
+</html>
