@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>readme.md</string>
+	<string>js/timer.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -40,15 +40,13 @@
 			<key>filename</key>
 			<string>readme.md</string>
 			<key>lastUsed</key>
-			<date>2012-11-10T17:53:19Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2012-11-12T05:52:17Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
-			<date>2012-11-10T17:53:19Z</date>
+			<date>2012-11-12T08:38:33Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -60,9 +58,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>12</integer>
 				<key>line</key>
-				<integer>24</integer>
+				<integer>27</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -76,21 +74,21 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>59</integer>
+				<integer>84</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>19</integer>
+			<integer>35</integer>
 		</dict>
 		<key>js/timer.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>32</integer>
 				<key>line</key>
-				<integer>113</integer>
+				<integer>123</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
