@@ -22,3 +22,8 @@ body {
 #timer .timer-reset {
 	width: 75px;
 }
+
+#timer .timer-settings {
+	display: none;
+	clear: both;
+}
