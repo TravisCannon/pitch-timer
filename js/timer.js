@@ -1,31 +1,63 @@
 var runTimer;
 var totalTime;
 var currentTime;
+var warningTime;
+var dangerTime;
 
-function checkUserInput() {
-	var user_input = $("#timer .timer-time").val().match(/^([0-9]+:[0-5][0-9]:[0-5][0-9]|[0-9]+:[0-5][0-9]|[0-9]+)$/);
+function expandTimerSettings() {
+	if ($("#timer .timer-expand button i").hasClass("icon-chevron-down")) {
+		$("#timer .timer-expand button i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+		$("#timer .timer-settings").show("slow");
+	} else {
+		$("#timer .timer-expand button i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+		$("#timer .timer-settings").hide("slow");
+	}
+}
+
+function validateUserInput(raw_input) {
+	var user_input = raw_input.match(/^([0-9]+:[0-5][0-9]:[0-5][0-9]|[0-9]+:[0-5][0-9]|[0-9]+)$/);
+	var formatted = "0";
+	var seconds = 0;
+	
 	if (user_input != null) {
-		$("#timer .timer-timeleft").text(user_input[0]);
+		formatted = user_input[0];
 		
 		var time_components = user_input[0].split(":");				
 		switch (time_components.length) {
 			case 1: 
-				totalTime = parseInt(time_components[0]);
+				seconds = parseInt(time_components[0]);
 				break;
 				
 			case 2:
-				totalTime = (parseInt(time_components[0]) * 60) + parseInt(time_components[1]);
+				seconds = (parseInt(time_components[0]) * 60) + parseInt(time_components[1]);
 				break;
 				
 			case 3:
-				totalTime = (parseInt(time_components[0]) * 60 * 60) + (parseInt(time_components[1]) * 60) + parseInt(time_components[2]);
+				seconds = (parseInt(time_components[0]) * 60 * 60) + (parseInt(time_components[1]) * 60) + parseInt(time_components[2]);
 				break;
 		}
-		
-		currentTime = 0;
 	} else {
 		// TODO: Display error message to user
 	}
+	
+	return [formatted, seconds];
+}
+
+function updateTime() {
+	var validated_input = validateUserInput($("#timer .timer-time").val());
+	
+	$("#timer .timer-timeleft").text(validated_input[0]);
+	
+	currentTime = 0;
+	totalTime = validated_input[1];
+}
+
+function updateWarning() {
+	warningTime = validateUserInput($("#inputWarning").val())[1];
+}
+
+function updateDanger() {
+	dangerTime = validateUserInput($("#inputDanger").val())[1];
 }
 
 function startTimer() {
@@ -62,7 +94,7 @@ function resetTimer() {
 	
 	runTimer = false;
 	
-	checkUserInput();
+	updateTime();
 }
 
 function tickTimer() {
@@ -87,9 +119,9 @@ function tickTimer() {
 		$("#timer .timer-bar").width(progress + "%");
 		
 		var time = totalTime - currentTime;
-		if (time <= 10) {
+		if (time <= dangerTime) {
 			$("#timer .timer-progress").removeClass("progress-success progress-warning").addClass("progress-danger");			
-		} else if ((progress >= 75) || (((totalTime * 0.25) <= 20) && (time <= 20))) {
+		} else if (time <= warningTime) {
 			$("#timer .timer-progress").removeClass("progress-success progress-danger").addClass("progress-warning");	
 		} else {
 			$("#timer .timer-progress").removeClass("progress-warning progress-danger").addClass("progress-success");

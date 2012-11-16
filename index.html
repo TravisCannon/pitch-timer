@@ -6,18 +6,18 @@
 	<title>Pitch Timer</title>
 	
 	<!-- Meta -->
-    <meta charset="utf-8">
+	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pitch Timer">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Pitch Timer">
 	<meta name="author" content="Travis Cannon">
 	
-    <!-- CSS -->
+	<!-- CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
 	<link href="css/timer.css" rel="stylesheet">
 	
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
 	<![endif]-->
@@ -25,35 +25,60 @@
 <body>
 	<!-- Pitch Timer -->
 	<div class="container">
-	  <div id="timer" class="hero-unit">
-	    <div>
-	      <h1 class="timer-timeleft">
-	        1:00
-	      </h1>
-	    </div>
-	    <div>
-	      <br>
-	    </div>
-	    <div class="timer-progress progress progress-striped progress-success">
-	      <div class="timer-bar bar" style="width: 0%">
-	      </div>
-	    </div>
-	    <div>
-	      <br>
-	    </div>
-		<div class="timer-controls input-append pull-right">
-		  <input class="timer-time span2" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="checkUserInput()">
-		  <button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
-		  <button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
-		  <button class="timer-reset btn btn-inverse" type="button" onclick="resetTimer()" disabled>Reset</button>
+		<div id="timer" class="hero-unit">
+			<div>
+				<h1 class="timer-timeleft">
+					1:00
+				</h1>
+			</div>
+			<div>
+				<br>
+			</div>
+			<div class="timer-progress progress progress-striped progress-success">
+				<div class="timer-bar bar" style="width: 0%">
+				</div>
+			</div>
+			<div>
+				<br>
+			</div>
+			<div class="well">
+				<div class="timer-expand pull-left">
+					<button class="btn" onclick="expandTimerSettings()"><i class="icon-chevron-down"></i></a>
+				</div>
+				<div class="timer-controls input-append pull-right">
+					<input class="timer-time span2" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="updateTime()">
+					<button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
+					<button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
+					<button class="timer-reset btn btn-inverse" type="button" onclick="resetTimer()" disabled>Reset</button>
+				</div>
+				<div>
+					<br>
+				</div>
+				<div class="timer-settings form-horizontal">
+					<div>
+						<br>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputWarning">Warning Time</label>
+						<div class="controls">
+							<input type="text" id="inputWarning" value="20" placeholder="hh:mm:ss" onchange="updateWarning()">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputDanger">Danger Time</label>
+						<div class="controls">
+							<input type="text" id="inputDanger" value="10" placeholder="hh:mm:ss" onchange="updateDanger()">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	  </div>
 	</div>
 	
-    <!-- JavaScript -->
-    <script src="js/jquery-1.8.2.min.js"></script>
+	<!-- JavaScript -->
+ 	<script src="js/jquery-1.8.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/timer.js"></script>
-	<script>checkUserInput();</script>
+	<script>updateTime(); updateWarning(); updateDanger();</script>
 </body>
 </html>
