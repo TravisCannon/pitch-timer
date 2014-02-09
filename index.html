@@ -1,71 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
 	<title>Pitch Timer</title>
 	
 	<!-- Meta -->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Pitch Timer">
 	<meta name="author" content="Travis Cannon">
 	
 	<!-- CSS -->
-	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/timer.css" rel="stylesheet">
-	
-	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<![endif]-->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 	<!-- Pitch Timer -->
 	<div class="container">
-		<div id="timer" class="hero-unit">
+		<div id="timer" class="jumbotron">
 			<div>
-				<h1 class="timer-timeleft">
-					1:00
-				</h1>
+				<h1 class="timer-timeleft">1:00</h1>
 			</div>
 			<div>
 				<br>
 			</div>
-			<div class="timer-progress progress progress-striped progress-success">
-				<div class="timer-bar bar" style="width: 0%">
-				</div>
+			<div class="timer-progress progress progress-striped">
+				<div class="timer-bar progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    <span class="sr-only">0% Complete</span>
+                </div>
 			</div>
 			<div>
 				<br>
 			</div>
 			<div class="well">
-				<div class="timer-expand pull-left">
-					<button class="btn" onclick="expandTimerSettings()"><i class="icon-chevron-down"></i></a>
-				</div>
-				<div class="timer-controls input-append pull-right">
-					<input class="timer-time span2" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="updateTime()">
-					<button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
-					<button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
-					<button class="timer-reset btn btn-inverse" type="button" onclick="resetTimer()" disabled>Reset</button>
-				</div>
-				<div>
-					<br>
+				<div class="timer-controls input-group">
+					<input class="timer-time form-control" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="updateTime()">
+                    <div class="input-group-btn">
+                        <button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
+					    <button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
+					    <button class="timer-reset btn btn-primary" type="button" onclick="resetTimer()" disabled>Reset</button>
+                        <button class="timer-expand btn btn-primary" type="button" onclick="expandTimerSettings()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    </div>
 				</div>
 				<div class="timer-settings form-horizontal">
-					<div>
-						<br>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="inputWarning">Warning Time</label>
-						<div class="controls">
-							<input type="text" id="inputWarning" value="20" placeholder="hh:mm:ss" onchange="updateWarning()">
+					<div class="form-group">
+                        <br>
+						<label class="col-sm-2 control-label" for="inputWarning">Warning Time</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="inputWarning" value="20" placeholder="hh:mm:ss" onchange="updateWarning()">
 						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="inputDanger">Danger Time</label>
-						<div class="controls">
-							<input type="text" id="inputDanger" value="10" placeholder="hh:mm:ss" onchange="updateDanger()">
+						<label class="col-sm-2 control-label" for="inputDanger">Danger Time</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="inputDanger" value="10" placeholder="hh:mm:ss" onchange="updateDanger()">
 						</div>
 					</div>
 				</div>

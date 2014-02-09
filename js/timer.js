@@ -5,11 +5,11 @@ var warningTime;
 var dangerTime;
 
 function expandTimerSettings() {
-	if ($("#timer .timer-expand button i").hasClass("icon-chevron-down")) {
-		$("#timer .timer-expand button i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+	if ($("#timer .timer-expand span").hasClass("glyphicon glyphicon-chevron-down")) {
+		$("#timer .timer-expand span").removeClass("glyphicon glyphicon-chevron-down").addClass("glyphicon glyphicon-chevron-up");
 		$("#timer .timer-settings").show("slow");
 	} else {
-		$("#timer .timer-expand button i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+		$("#timer .timer-expand span").removeClass("glyphicon glyphicon-chevron-up").addClass("glyphicon glyphicon-chevron-down");
 		$("#timer .timer-settings").hide("slow");
 	}
 }
@@ -120,11 +120,11 @@ function tickTimer() {
 		
 		var time = totalTime - currentTime;
 		if (time <= dangerTime) {
-			$("#timer .timer-progress").removeClass("progress-success progress-warning").addClass("progress-danger");			
+			$("#timer .timer-bar").removeClass("progress-bar-success progress-bar-warning").addClass("progress-bar-danger");
 		} else if (time <= warningTime) {
-			$("#timer .timer-progress").removeClass("progress-success progress-danger").addClass("progress-warning");	
+			$("#timer .timer-bar").removeClass("progress-bar-success progress-bar-danger").addClass("progress-bar-warning");
 		} else {
-			$("#timer .timer-progress").removeClass("progress-warning progress-danger").addClass("progress-success");
+			$("#timer .timer-bar").removeClass("progress-bar-warning progress-bar-danger").addClass("progress-bar-success");
 		}
 
 		currentTime += 1;
