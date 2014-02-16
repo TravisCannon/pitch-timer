@@ -1,13 +1,36 @@
+/*
+ * Timer Cascading Style Sheets (CSS)
+ */
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.animate-show {
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.5s;
+    opacity:1;
+}
+
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+    display:block!important;
+}
+
+.animate-show.ng-hide {
+    opacity:0;
+}
+
 body {
 	padding-top: 60px;
 }
 
-#timer .timer-timeleft {
+#timer .timer-time_left {
     text-align: center;
     font-size: 250px;
 }
 
-#timer .timer-time {
+#timer .timer-time_total {
 	text-align: right;
 }
 
@@ -21,9 +44,4 @@ body {
 
 #timer .timer-reset {
 	width: 75px;
-}
-
-#timer .timer-settings {
-	display: none;
-	clear: both;
 }
