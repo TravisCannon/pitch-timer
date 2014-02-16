@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html ng-app="TimerApp" lang="en">
 <head>
 	<title>Pitch Timer</title>
 	
@@ -24,42 +24,45 @@
 </head>
 <body>
 	<!-- Pitch Timer -->
-	<div class="container">
-		<div id="timer" class="jumbotron">
+	<div ng-controller="TimerCtrl" id="timer" class="container">
+		<div class="jumbotron">
+            <!-- Time Remaining -->
 			<div>
-				<h1 class="timer-timeleft">1:00</h1>
+				<h1 ng-cloak class="timer-time_left">{{time_left}}</h1>
 			</div>
 			<div>
 				<br>
 			</div>
-			<div class="timer-progress progress progress-striped">
-				<div class="timer-bar progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                    <span class="sr-only">0% Complete</span>
+            <!-- Progress Bar -->
+			<div class="timer-progressbar progress progress-striped" ng-class="{'active': is_running}">
+				<div class="progress-bar" ng-class="{ success: 'progress-bar-success', warning: 'progress-bar-warning', danger: 'progress-bar-danger' }[progress_bar_style]" role="progressbar" aria-valuenow="{{time_progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{'width': time_progress + '%'}">
+                    <span ng-cloak class="sr-only">{{time_progress}}%</span>
                 </div>
 			</div>
 			<div>
 				<br>
 			</div>
+            <!-- Timer Settings & Controls -->
 			<div class="well">
 				<div class="timer-controls input-group">
-					<input class="timer-time form-control" id="appendedInputButton" type="text" value="1:00" placeholder="hh:mm:ss" onchange="updateTime()">
+					<input time ng-model="time_total" ng-change="updateTime()" ng-disabled="is_running == true" class="timer-time_total form-control" type="text" placeholder="hh:mm:ss" required>
                     <div class="input-group-btn">
-                        <button class="timer-play btn btn-success" type="button" onclick="startTimer()">Go!</button>
-					    <button class="timer-stop btn btn-danger" type="button" onclick="stopTimer()" disabled>Stop</button>
-					    <button class="timer-reset btn btn-primary" type="button" onclick="resetTimer()" disabled>Reset</button>
-                        <button class="timer-expand btn btn-primary" type="button" onclick="expandTimerSettings()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                        <button ng-click="startTimer()" ng-disabled="is_running == true" class="timer-play btn btn-success" type="button">Go</button>
+					    <button ng-click="stopTimer()" ng-disabled="is_running == false" class="timer-stop btn btn-danger" type="button" disabled>Stop</button>
+					    <button ng-click="resetTimer()" ng-disabled="(is_running == false) && (time_count == 0) && (time_progress == 0)" class="timer-reset btn btn-primary" type="button" disabled>Reset</button>
+                        <button ng-click="toggleSettings()" class="timer-expand btn btn-primary" type="button"><span ng-cloak class="glyphicon" ng-class="{true: 'glyphicon-chevron-up', false: 'glyphicon-chevron-down'}[show_settings]"></span></button>
                     </div>
 				</div>
-				<div class="timer-settings form-horizontal">
+				<div class="timer-settings form-horizontal animate-show" ng-show="show_settings">
 					<div class="form-group">
                         <br>
-						<label class="col-sm-2 control-label" for="inputWarning">Warning Time</label>
+						<label class="col-sm-2 control-label" for="timer-time_warning">Warning Time</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="inputWarning" value="20" placeholder="hh:mm:ss" onchange="updateWarning()">
+							<input time ng-model="time_warning" ng-disabled="is_running == true" class="timer-time_warning form-control" id="timer-time_warning" type="text" placeholder="hh:mm:ss">
 						</div>
-						<label class="col-sm-2 control-label" for="inputDanger">Danger Time</label>
+						<label class="col-sm-2 control-label" for="timer-time_danger">Danger Time</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" id="inputDanger" value="10" placeholder="hh:mm:ss" onchange="updateDanger()">
+							<input time ng-model="time_danger" ng-disabled="is_running == true" class="timer-time_danger form-control" id="timer-time_danger" type="text" placeholder="hh:mm:ss">
 						</div>
 					</div>
 				</div>
@@ -70,7 +73,8 @@
 	<!-- JavaScript -->
  	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/timer.js"></script>
-	<script>updateTime(); updateWarning(); updateDanger();</script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/timer.js"></script>
 </body>
 </html>
