@@ -1,145 +1,165 @@
-var runTimer;
-var totalTime;
-var currentTime;
-var warningTime;
-var dangerTime;
+/*
+ * Timer JavaScript using AngularJS
+ */
+angular.module('TimerApp', ['ngAnimate'])
 
-function expandTimerSettings() {
-	if ($("#timer .timer-expand button i").hasClass("icon-chevron-down")) {
-		$("#timer .timer-expand button i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
-		$("#timer .timer-settings").show("slow");
-	} else {
-		$("#timer .timer-expand button i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
-		$("#timer .timer-settings").hide("slow");
-	}
-}
+    /*
+     * Time Formatter factory to parse and format time
+     */
+    .factory('TimeFormatter', function() {
+        return {
+            // Format time from seconds to HH:MM:SS
+            secondsToHHMMSS: function(seconds) {
+                var formatted_time = "";
 
-function validateUserInput(raw_input) {
-	var user_input = raw_input.match(/^([0-9]+:[0-5][0-9]:[0-5][0-9]|[0-9]+:[0-5][0-9]|[0-9]+)$/);
-	var formatted = "0";
-	var seconds = 0;
-	
-	if (user_input != null) {
-		formatted = user_input[0];
-		
-		var time_components = user_input[0].split(":");				
-		switch (time_components.length) {
-			case 1: 
-				seconds = parseInt(time_components[0]);
-				break;
-				
-			case 2:
-				seconds = (parseInt(time_components[0]) * 60) + parseInt(time_components[1]);
-				break;
-				
-			case 3:
-				seconds = (parseInt(time_components[0]) * 60 * 60) + (parseInt(time_components[1]) * 60) + parseInt(time_components[2]);
-				break;
-		}
-	} else {
-		// TODO: Display error message to user
-	}
-	
-	return [formatted, seconds];
-}
+                var hours = Math.floor(seconds / (60 * 60));
+                seconds -= hours * (60 * 60);
 
-function updateTime() {
-	var validated_input = validateUserInput($("#timer .timer-time").val());
-	
-	$("#timer .timer-timeleft").text(validated_input[0]);
-	
-	currentTime = 0;
-	totalTime = validated_input[1];
-}
+                var minutes = Math.floor(seconds / 60);
+                seconds -= minutes * (60);
 
-function updateWarning() {
-	warningTime = validateUserInput($("#inputWarning").val())[1];
-}
+                if (hours > 0) {
+                    formatted_time = hours + ":" + ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+                } else if (minutes > 0) {
+                    formatted_time = minutes + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+                } else {
+                    formatted_time = seconds;
+                }
 
-function updateDanger() {
-	dangerTime = validateUserInput($("#inputDanger").val())[1];
-}
+                return formatted_time;
+            },
 
-function startTimer() {
-	$("#timer .timer-play").attr("disabled", "disabled");
-	$("#timer .timer-stop").removeAttr("disabled");
-	$("#timer .timer-reset").removeAttr("disabled");
-	
-	$("#timer .timer-progress").addClass("active");
-	
-	runTimer = true;
-	
-	tickTimer();
-}
+            // Parse time from HH:MM:SS to seconds
+            hhmmssToSeconds: function(time) {
+                var seconds = 0;
+                var components = time.split(":");
 
-function stopTimer() {
-	$("#timer .timer-play").removeAttr("disabled");
-	$("#timer .timer-stop").attr("disabled", "disabled");
-	$("#timer .timer-reset").removeAttr("disabled");
-	
-	$("#timer .timer-progress").removeClass("active");
-	
-	runTimer = false;
-	
-	tickTimer();
-}
+                switch (components.length) {
+                    case 1:
+                        seconds = parseInt(components[0]);
+                        break;
 
-function resetTimer() {
-	$("#timer .timer-play").removeAttr("disabled");
-	$("#timer .timer-stop").attr("disabled", "disabled");
-	$("#timer .timer-reset").attr("disabled", "disabled");
+                    case 2:
+                        seconds = (parseInt(components[0]) * 60) + parseInt(components[1]);
+                        break;
 
-	$("#timer .timer-bar").width("0%");
-	$("#timer .timer-progress").removeClass("active");
-	
-	runTimer = false;
-	
-	updateTime();
-}
+                    case 3:
+                        seconds = (parseInt(components[0]) * 60 * 60) + (parseInt(components[1]) * 60) + parseInt(components[2]);
+                        break;
+                }
 
-function tickTimer() {
-	if ((runTimer == true) && (currentTime < totalTime)) {
-		var timeSeconds = totalTime - currentTime;
+                return seconds;
+            }
+        };
+    })
 
-        var timeHours = Math.floor(timeSeconds / (60 * 60));
-        timeSeconds -= timeHours * (60 * 60);
+    /*
+     * Time directive to enhance and validate user input
+     */
+    .directive('time', ['TimeFormatter', function(TimeFormatter) {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function($scope, $element, $attrs, ngModelController) {
+                var time_format = /^([0-9]+:[0-5][0-9]:[0-5][0-9]|[0-9]+:[0-5][0-9]|[0-9]+)$/;
 
-        var timeMinutes = Math.floor(timeSeconds / 60);
-        timeSeconds -= timeMinutes * (60);
+                ngModelController.$formatters.push(function(value) {
+                    value = TimeFormatter.secondsToHHMMSS(value);
 
-		if (timeHours > 0) {
-			$("#timer .timer-timeleft").text(timeHours + ":" + ((timeMinutes < 10) ? "0" + timeMinutes : timeMinutes) + ":" + ((timeSeconds < 10) ? "0" + timeSeconds : timeSeconds));
-		} else if (timeMinutes > 0) {
-			$("#timer .timer-timeleft").text(timeMinutes + ":" + ((timeSeconds < 10) ? "0" + timeSeconds : timeSeconds));
-		} else {
-			$("#timer .timer-timeleft").text(timeSeconds);
-		}
-		
-		var progress = ((currentTime / totalTime) * 100).toFixed(2);
-		$("#timer .timer-bar").width(progress + "%");
-		
-		var time = totalTime - currentTime;
-		if (time <= dangerTime) {
-			$("#timer .timer-progress").removeClass("progress-success progress-warning").addClass("progress-danger");			
-		} else if (time <= warningTime) {
-			$("#timer .timer-progress").removeClass("progress-success progress-danger").addClass("progress-warning");	
-		} else {
-			$("#timer .timer-progress").removeClass("progress-warning progress-danger").addClass("progress-success");
-		}
+                    var isValid = typeof value === 'string'
+                        && value.match(time_format);
 
-		currentTime += 1;
+                    ngModelController.$setValidity('time', isValid);
 
-		setTimeout(tickTimer, 1000);
-	} else if (runTimer == true) {
-		$("#timer .timer-play").attr("disabled", "disabled");
-		$("#timer .timer-stop").attr("disabled", "disabled");
-		$("#timer .timer-reset").removeAttr("disabled");
+                    return value;
+                });
 
-		$("#timer .timer-bar").width("100%");
-		$("#timer .timer-progress").removeClass("active");
+                ngModelController.$parsers.push(function(value) {
+                    var isValid = typeof value === 'string'
+                        && value.match(time_format);
 
-		$("#timer .timer-timeleft").text("Stop!");
-		
-		runTimer = false;
-	}
-}
+                    ngModelController.$setValidity('time', isValid);
+
+                    return isValid ? TimeFormatter.hhmmssToSeconds(value.match(time_format)[0]) : undefined;
+                });
+            }
+        };
+    }])
+
+    /*
+     * Timer controller
+     */
+    .controller('TimerCtrl', ['$scope', '$timeout', 'TimeFormatter', function($scope, $timeout, TimeFormatter) {
+        // Progress bar style enum
+        var ProgressBarStyle = { success: 'success', warning: 'warning', danger: 'danger' };
+
+        // Timer models
+        $scope.is_running = false;
+        $scope.show_settings = false;
+        $scope.progress_bar_style = ProgressBarStyle.success;
+        $scope.time_count = 0;
+        $scope.time_progress = 0;
+        $scope.time_total = 60;
+        $scope.time_warning = 20;
+        $scope.time_danger = 10;
+        $scope.time_left = TimeFormatter.secondsToHHMMSS($scope.time_total);
+
+        // Update time
+        $scope.updateTime = function () {
+            $scope.time_count = 0;
+            $scope.time_progress = 0;
+            $scope.progress_bar_style = ProgressBarStyle.success;
+            $scope.time_left = TimeFormatter.secondsToHHMMSS($scope.time_total);
+        };
+
+        // Start timer
+        $scope.startTimer = function () {
+            $scope.is_running = true;
+            tickTimer();
+        };
+
+        // Stop timer
+        $scope.stopTimer = function () {
+            $scope.is_running = false;
+            tickTimer();
+        };
+
+        // Reset timer
+        $scope.resetTimer = function () {
+            $scope.is_running = false;
+            $scope.updateTime();
+        };
+
+        // Toggle settings
+        $scope.toggleSettings = function () {
+            $scope.show_settings = !($scope.show_settings);
+        };
+
+        // Tick timer
+        var tickTimer = function () {
+            if (($scope.is_running == true) && ($scope.time_count < $scope.time_total)) {
+                var time_remaining = $scope.time_total - $scope.time_count;
+
+                $scope.time_left = TimeFormatter.secondsToHHMMSS(time_remaining);
+                $scope.time_progress = (($scope.time_count / $scope.time_total) * 100).toFixed(2);
+
+                if (time_remaining <= $scope.time_danger) {
+                    $scope.progress_bar_style = ProgressBarStyle.danger;
+                } else if (time_remaining <= $scope.time_warning) {
+                    $scope.progress_bar_style = ProgressBarStyle.warning;
+                } else {
+                    $scope.progress_bar_style = ProgressBarStyle.success;
+                }
+
+                $scope.time_count += 1;
+
+                $timeout(tickTimer, 1000);
+            } else if ($scope.is_running == true) {
+                $scope.is_running = false;
+                $scope.time_count = 0;
+                $scope.time_progress = 100;
+                $scope.time_left = 'Stop!';
+            }
+        }
+    }])
+;
