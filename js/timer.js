@@ -104,6 +104,18 @@ angular.module('TimerApp', ['ngAnimate'])
         $scope.time_danger = 10;
         $scope.time_left = TimeFormatter.secondsToHHMMSS($scope.time_total);
 
+        // Audio cues
+        $scope.play_audio = false;
+
+        $scope.beep_danger = document.createElement('audio');
+        $scope.beep_danger.src = 'media/beep-danger.mp3';
+
+        $scope.beep_warning = document.createElement('audio');
+        $scope.beep_warning.src = 'media/beep-warning.mp3';
+
+        $scope.beep_end = document.createElement('audio');
+        $scope.beep_end.src = 'media/beep-end.mp3';
+
         // Update time
         $scope.updateTime = function () {
             $scope.time_count = 0;
@@ -144,8 +156,16 @@ angular.module('TimerApp', ['ngAnimate'])
                 $scope.time_progress = (($scope.time_count / $scope.time_total) * 100).toFixed(2);
 
                 if (time_remaining <= $scope.time_danger) {
+                    if (($scope.play_audio == true) && ($scope.progress_bar_style != ProgressBarStyle.danger)) {
+                        $scope.beep_danger.play();
+                    }
+
                     $scope.progress_bar_style = ProgressBarStyle.danger;
                 } else if (time_remaining <= $scope.time_warning) {
+                    if (($scope.play_audio == true) && ($scope.progress_bar_style != ProgressBarStyle.warning)) {
+                        $scope.beep_warning.play();
+                    }
+
                     $scope.progress_bar_style = ProgressBarStyle.warning;
                 } else {
                     $scope.progress_bar_style = ProgressBarStyle.success;
@@ -159,6 +179,10 @@ angular.module('TimerApp', ['ngAnimate'])
                 $scope.time_count = 0;
                 $scope.time_progress = 100;
                 $scope.time_left = 'Stop!';
+
+                if ($scope.play_audio == true) {
+                    $scope.beep_end.play();
+                }
             }
         }
     }])
