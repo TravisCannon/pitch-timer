@@ -5,57 +5,57 @@
 	<title>Pitch Timer</title>
 	
 	<!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Pitch Timer">
 	<meta name="author" content="Travis Cannon">
 	
 	<!-- CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/timer.css" rel="stylesheet">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 </head>
 <body>
 	<!-- Pitch Timer -->
 	<div ng-controller="TimerCtrl" id="timer" class="container">
 		<div class="jumbotron">
-            <!-- Time Remaining -->
+			<!-- Time Remaining -->
 			<div>
 				<h1 ng-cloak class="timer-time_left">{{time_left}}</h1>
 			</div>
 			<div>
 				<br>
 			</div>
-            <!-- Progress Bar -->
+			<!-- Progress Bar -->
 			<div class="timer-progressbar progress progress-striped" ng-class="{'active': is_running}">
 				<div class="progress-bar" ng-class="{ success: 'progress-bar-success', warning: 'progress-bar-warning', danger: 'progress-bar-danger' }[progress_bar_style]" role="progressbar" aria-valuenow="{{time_progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{'width': time_progress + '%'}">
-                    <span ng-cloak class="sr-only">{{time_progress}}%</span>
-                </div>
+					<span ng-cloak class="sr-only">{{time_progress}}%</span>
+				</div>
 			</div>
 			<div>
 				<br>
 			</div>
-            <!-- Timer Settings & Controls -->
+			<!-- Timer Settings & Controls -->
 			<div class="well">
 				<div class="timer-controls input-group">
 					<input time ng-model="time_total" ng-change="updateTime()" ng-disabled="is_running == true" class="timer-time_total form-control" type="text" placeholder="hh:mm:ss" required>
-                    <div class="input-group-btn">
-                        <button ng-click="startTimer()" ng-disabled="is_running == true" class="timer-play btn btn-success" type="button">Go</button>
-					    <button ng-click="stopTimer()" ng-disabled="is_running == false" class="timer-stop btn btn-danger" type="button" disabled>Stop</button>
-					    <button ng-click="resetTimer()" ng-disabled="(is_running == false) && (time_count == 0) && (time_progress == 0)" class="timer-reset btn btn-primary" type="button" disabled>Reset</button>
-                        <button ng-click="toggleSettings()" class="timer-expand btn btn-primary" type="button"><span ng-cloak class="glyphicon" ng-class="{true: 'glyphicon-chevron-up', false: 'glyphicon-chevron-down'}[show_settings]"></span></button>
-                    </div>
+					<div class="input-group-btn">
+						<button ng-click="startTimer()" ng-disabled="is_running == true" class="timer-play btn btn-success" type="button">Go</button>
+						<button ng-click="stopTimer()" ng-disabled="is_running == false" class="timer-stop btn btn-danger" type="button" disabled>Stop</button>
+						<button ng-click="resetTimer()" ng-disabled="(is_running == false) && (time_count == 0) && (time_progress == 0)" class="timer-reset btn btn-primary" type="button" disabled>Reset</button>
+						<button ng-click="toggleSettings()" class="timer-expand btn btn-primary" type="button"><span ng-cloak class="glyphicon" ng-class="{true: 'glyphicon-chevron-up', false: 'glyphicon-chevron-down'}[show_settings]"></span></button>
+					</div>
 				</div>
 				<div class="timer-settings form-horizontal animate-show" ng-show="show_settings">
 					<div class="form-group">
-                        <br>
+						<br>
 						<label class="col-sm-2 control-label" for="timer-time_warning">Warning Time</label>
 						<div class="col-sm-4">
 							<input time ng-model="time_warning" ng-disabled="is_running == true" class="timer-time_warning form-control" id="timer-time_warning" type="text" placeholder="hh:mm:ss">
@@ -76,10 +76,10 @@
 	</div>
 	
 	<!-- JavaScript -->
- 	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-animate.min.js"></script>
-    <script src="js/timer.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-animate.min.js"></script>
+	<script src="js/timer.js"></script>
 </body>
 </html>

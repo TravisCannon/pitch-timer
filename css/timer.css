@@ -3,22 +3,22 @@
  */
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
+	display: none !important;
 }
 
 .animate-show {
-    -webkit-transition:all linear 0.5s;
-    transition:all linear 0.5s;
-    opacity:1;
+	-webkit-transition:all linear 0.5s;
+	transition:all linear 0.5s;
+	opacity:1;
 }
 
 .animate-show.ng-hide-add,
 .animate-show.ng-hide-remove {
-    display:block!important;
+	display:block!important;
 }
 
 .animate-show.ng-hide {
-    opacity:0;
+	opacity:0;
 }
 
 body {
@@ -26,8 +26,8 @@ body {
 }
 
 #timer .timer-time_left {
-    text-align: center;
-    font-size: 250px;
+	text-align: center;
+	font-size: 250px;
 }
 
 #timer .timer-time_total {
