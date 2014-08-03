@@ -54,22 +54,34 @@
 					</div>
 				</div>
 				<div class="timer-settings form-horizontal animate-show" ng-show="show_settings">
-					<div class="form-group">
-						<br>
-						<label class="col-sm-2 control-label" for="timer-time_warning">Warning Time</label>
-						<div class="col-sm-4">
-							<input time ng-model="time_warning" ng-disabled="is_running == true" class="timer-time_warning form-control" id="timer-time_warning" type="text" placeholder="hh:mm:ss">
+					<br>
+					<form class="form-horizontal" role="form">
+						<!-- Warning Time -->
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="timer-time_warning">Warning Time</label>
+							<div class="col-sm-4">
+								<input time ng-model="time_warning" ng-disabled="is_running == true" class="timer-time_warning form-control" id="timer-time_warning" type="text" placeholder="hh:mm:ss">
+							</div>
 						</div>
-						<label class="col-sm-2 control-label" for="timer-time_danger">Danger Time</label>
-						<div class="col-sm-4">
-							<input time ng-model="time_danger" ng-disabled="is_running == true" class="timer-time_danger form-control" id="timer-time_danger" type="text" placeholder="hh:mm:ss">
+						<!-- Danger Time -->
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="timer-time_danger">Danger Time</label>
+							<div class="col-sm-4">
+								<input time ng-model="time_danger" ng-disabled="is_running == true" class="timer-time_danger form-control" id="timer-time_danger" type="text" placeholder="hh:mm:ss">
+							</div>
 						</div>
-						<br>
-						<label class="col-sm-2 control-label" for="timer-time_warning">Play Audio Cues</label>
-						<div class="col-sm-4">
-							<input ng-model="play_audio" ng-disabled="is_running == true" class="timer-play_audio" id="timer-play_audio" type="checkbox">
+						<!-- Play Audio Cues -->
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="timer-time_warning">Play Audio Cues</label>
+							<div class="col-sm-4">
+								<div class="checkbox">
+									<label>
+										<input ng-model="play_audio" ng-disabled="is_running == true" class="timer-play_audio" id="timer-play_audio" type="checkbox">
+									</label>
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
