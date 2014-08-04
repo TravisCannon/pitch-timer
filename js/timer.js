@@ -4,6 +4,13 @@
 angular.module('TimerApp', ['ngAnimate'])
 
 	/*
+	 * Configure application
+	 */
+	.config(function($locationProvider) {
+		$locationProvider.html5Mode(true);
+    })
+
+	/*
 	 * Time Formatter factory to parse and format time
 	 */
 	.factory('TimeFormatter', function() {
@@ -54,6 +61,50 @@ angular.module('TimerApp', ['ngAnimate'])
 	})
 
 	/*
+	 * URL parameter parsers
+	 */
+	.factory('URLParser', ['TimeFormatter', function(TimeFormatter) {
+		return {
+			// Parse time parameter
+			timeParameter: function(parameter, defaultValue) {
+				var value = defaultValue;
+				var time_format = /^([0-9]+:[0-5][0-9]:[0-5][0-9]|[0-9]+:[0-5][0-9]|[0-9]+)$/;
+
+				if (parameter != undefined) {
+					if ((typeof parameter === 'string') && (parameter.match(time_format))) {
+						value = TimeFormatter.hhmmssToSeconds(parameter);
+					} else if ((typeof parameter === 'number') && (parameter > 0)) {
+						value = parseInt(parameter);
+					}
+				}
+
+				return value;
+			},
+
+			// Parse audio parameter
+			audioParameter: function(parameter, defaultValue) {
+				var value = defaultValue;
+
+				if (parameter != undefined) {
+					if (typeof parameter === 'boolean') {
+						value = parameter;
+					} else if (typeof parameter === 'string') {
+						if (parameter.toLowerCase() === 'false') {
+							value = false;
+						} else if (parameter.toLowerCase() === 'true') {
+							value = true;
+						}
+					} else if (typeof parameter === 'number') {
+						value = (parameter > 0) ? true : false;
+					}
+				}
+
+				return value;
+			}
+		};
+	}])
+
+	/*
 	 * Time directive to enhance and validate user input
 	 */
 	.directive('time', ['TimeFormatter', function(TimeFormatter) {
@@ -89,9 +140,13 @@ angular.module('TimerApp', ['ngAnimate'])
 	/*
 	 * Timer controller
 	 */
-	.controller('TimerCtrl', ['$scope', '$timeout', 'TimeFormatter', function($scope, $timeout, TimeFormatter) {
+	.controller('TimerCtrl', ['$scope', '$location', '$timeout', 'URLParser', 'TimeFormatter', function($scope, $location, $timeout, URLParser, TimeFormatter) {
 		// Progress bar style enum
 		var ProgressBarStyle = { success: 'success', warning: 'warning', danger: 'danger' };
+
+		// Get presets from URL
+		var url_presets = $location.search();
+		var url_command = $location.hash();
 
 		// Timer models
 		$scope.is_running = false;
@@ -99,13 +154,13 @@ angular.module('TimerApp', ['ngAnimate'])
 		$scope.progress_bar_style = ProgressBarStyle.success;
 		$scope.time_count = 0;
 		$scope.time_progress = 0;
-		$scope.time_total = 60;
-		$scope.time_warning = 20;
-		$scope.time_danger = 10;
+		$scope.time_total = URLParser.timeParameter(url_presets['time'], 60);
+		$scope.time_warning = URLParser.timeParameter(url_presets['warning'], 20);
+		$scope.time_danger = URLParser.timeParameter(url_presets['danger'], 10);
 		$scope.time_left = TimeFormatter.secondsToHHMMSS($scope.time_total);
 
 		// Audio cues
-		$scope.play_audio = false;
+		$scope.play_audio = URLParser.audioParameter(url_presets['audio'], false);
 
 		$scope.beep_danger = document.createElement('audio');
 		$scope.beep_danger.src = 'media/beep-danger.mp3';
@@ -184,6 +239,11 @@ angular.module('TimerApp', ['ngAnimate'])
 					$scope.beep_end.play();
 				}
 			}
+		};
+
+		// Execute URL command
+		if (url_command.toLowerCase() === 'start') {
+			$scope.startTimer();
 		}
 	}])
 ;
