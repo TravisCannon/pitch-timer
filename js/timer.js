@@ -89,9 +89,9 @@ angular.module('TimerApp', ['ngAnimate'])
 					if (typeof parameter === 'boolean') {
 						value = parameter;
 					} else if (typeof parameter === 'string') {
-						if (parameter.toLowerCase() === 'false') {
+						if ((parameter.toLowerCase() === 'off') || (parameter.toLowerCase() === 'false')) {
 							value = false;
-						} else if (parameter.toLowerCase() === 'true') {
+						} else if ((parameter.toLowerCase() === 'on') || (parameter.toLowerCase() === 'true')) {
 							value = true;
 						}
 					} else if (typeof parameter === 'number') {
